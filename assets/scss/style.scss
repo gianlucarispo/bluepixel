@@ -1,0 +1,855 @@
+// Common colours
+$blue: #2c72d9;
+$grey: #777777;
+
+.color { background: #ccc !important; }
+
+// Custom vendor prefix mixin
+@mixin prefix($property, $value) {
+    -webkit-#{$property}: #{$value};
+    -moz-#{$property}: #{$value};
+    -o-#{$property}: #{$value};
+    #{$property}: #{$value};
+}
+
+// Use translation to center vertically or horizontally
+@mixin center($XorY, $position, $transforms: "") {
+    position: #{$position};
+
+    @if $XorY == X {
+        left: 50%;
+    } @else {
+        top: 50%;
+    }
+
+    // Apply translation using the custom prefix mixin
+    @include prefix("transform", "translate#{$XorY}(-50%) #{$transforms}");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font: 18px/30px "Avenir Next", "Avenir", "Helvetica Neue", "Lato", sans-serif;
+
+    @include prefix("box-sizing", "border-box");
+
+    // Make the text a little more legible
+    @include prefix("font-smoothing", "optimizelegibilty");
+}
+
+body {
+    background: #fff;
+}
+
+// Highlighted text
+::selection {
+    color: #fff;
+    background: $blue;
+}
+
+.clearfix:after {
+    content: "";
+    width: 0;
+    height: 0;
+    display: block;
+    clear: both;
+    visibility: hidden;
+}
+
+.inner {
+    width: 960px;
+    position: relative;
+    margin: 0 auto;
+    padding: 70px 0;
+    opacity: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+
+    // Remove tap highlight in iOS
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+h1 {
+    font-size: 32px;
+    font-style: none;
+    font-weight: 400;
+    line-height: 46px;
+    color: #1e2024;
+}
+
+.col-12,
+.col-9,
+.col-8,
+.col-6,
+.col-4,
+.col-3 {
+    margin-left: 10px;
+    margin-right: 10px;
+    display: inline;
+    float: left;
+}
+
+.right { float: right; right: 0; }
+.left  { float: left; left: 0; }
+
+.col-12 { width: 940px; }
+.col-9  { width: 620px; }
+.col-8  { width: 700px; }
+.col-6  { width: 460px; }
+.col-4  { width: 300px; }
+.col-3  { width: 220px; }
+
+.sub-text {
+    color: $grey;
+}
+
+// Add a subtle divider to each section (except the last one)
+.sec:not(:last-of-type) .inner {
+    border-bottom: 1px solid lighten($grey, 46%);
+}
+
+.fade-in {
+    // Pull in our keyframe animation; at end of file
+    @include prefix("animation", "fadeInDown 1.25s");
+}
+
+.scrolled { opacity: 1 !important; }
+
+.v-center {
+    @include center("Y", "absolute")
+}
+
+.h-center {
+    @include center("X", "absolute")
+}
+
+#main-header {
+    height: 115px;
+
+    .inner { padding: 0; }
+
+    .logo {
+        height: 32px;
+        float: left;
+        margin-top: 40px;
+        cursor: pointer;
+        color: $blue;
+        font-weight: 600;
+        font-size: 24px;
+
+        // Help center it vertically
+        padding-top: 1px;
+
+        @include prefix("transition", "opacity 0.2s");
+        @include prefix("transform", "translateZ(0)");
+
+        &:hover {
+            opacity: 0.7;
+        }
+
+        span {
+            width: 32px;
+            height: 32px;
+            background: url(../images/favicon120.png) no-repeat;
+            background-size: 100%;
+            float: left;
+            border-radius: 8px;
+            margin-top: -1px;
+            margin-right: 10px;
+            border: 1px solid #f5f5f5;
+        }
+    }
+
+    #main-nav {
+        float: right;
+        margin-top: 43px;
+
+        ul {
+            list-style: none;
+
+            li {
+                display: inline-block;
+                padding-bottom: 8px;
+                font-weight: 500;
+                color: $blue;
+                margin: 0 12px;
+                cursor: pointer;
+
+                // Transition requires a default border state
+                border-bottom: 2px solid transparent;
+
+                @include prefix("transition", "all 0.1s");
+
+                &:first-of-type { margin-left: 0; }
+                &:last-of-type { margin-right: 0; }
+
+                &:hover {
+                    border-bottom: 2px solid $blue;
+                }
+            }
+        }
+    }
+}
+
+#hero {
+    .col-4.left {
+        .hero-iphone {
+            width: 300px;
+            height: 633px;
+            background: url(../images/iphone-day.png) no-repeat;
+            margin: 0 auto;
+        }
+    }
+
+    .col-6.right {
+        position: absolute;
+
+        // Center vertically using the v-center class
+        @extend .v-center;
+
+        .sub-text { margin-top: 28px; }
+
+        .badge {
+            padding: 8px 20px 7px 20px;
+            display: block;
+            float: left;
+            margin-top: 38px;
+            background: none;
+            border-radius: 6px;
+            color: #fff;
+            background: $blue;
+            border: 2px solid $blue;
+
+            @include prefix("transition", "all 0.2s");
+
+            &:hover {
+                background: none;
+                color: $blue;
+            }
+        }
+
+        small {
+            width: 210px;
+            font-size: 12px;
+            color: $grey;
+            display: block;
+            float: left;
+            margin-top: 5px;
+            clear: both;
+            text-align: center;
+        }
+    }
+}
+
+#info {
+    .col-6 {
+        padding: 0 60px;
+
+        .icon-star {
+            width: 68px;
+            height: 63px;
+            background: url(../images/icon-star@2x.png) no-repeat;
+            background-size: 100%;
+            margin: 0 auto;
+        }
+
+        .icon-story {
+            width: 56px;
+            height: 63px;
+            background: url(../images/icon-story@2x.png) no-repeat;
+            background-size: 100%;
+            margin: 0 auto;
+        }
+
+        h1 { margin-top: 15px; }
+
+        h1,
+        .sub-text { text-align: center; }
+        .sub-text { margin-top: 10px; }
+    }
+}
+
+#vote-comment {
+    .col-6.left {
+        padding: 0 30px;
+        @extend .v-center;
+
+        h1 { margin-top: 15px; }
+
+        .sub-text { margin-top: 10px; }
+    }
+
+    .iphone-vote {
+        width: 300px;
+        height: 380px;
+        margin: 0 auto;
+        background: url(../images/comment.png) no-repeat;
+        background-position: center bottom;
+        margin-top: -70px;
+    }
+}
+
+#read-later {
+    .col-6 {
+        padding: 0 30px;
+
+        &.right { @extend .v-center; }
+
+        h1 { margin-top: 15px; }
+
+        h1,
+        .sub-text { text-align: center; }
+        .sub-text { margin-top: 10px; }
+
+        .vendors {
+            width: 278px;
+            height: 198px;
+            margin: 0 auto;
+            background: url(../images/read-later@2x.png) no-repeat;
+            background-size: 100%;
+        }
+
+        &.right h1,
+        .sub-text { text-align: left; }
+    }
+}
+
+#night-mode {
+    background: #1e2024;
+
+    .col-6 {
+        padding: 0 30px;
+
+        &.left { @extend .v-center; }
+
+        h1 { color: #fff; margin-top: 15px; }
+
+        h1,
+        .sub-text { text-align: center; }
+        .sub-text { margin-top: 10px; }
+
+        .iphone-dark {
+            width: 300px;
+            height: 380px;
+            margin: 0 auto;
+            background: url(../images/iphone-night.png) no-repeat;
+            margin-bottom: -70px;
+        }
+
+        &.left h1,
+        .sub-text { text-align: left; }
+
+        .night-mode-btn {
+            display: inline-block;
+            border: 1px solid #383c48;
+            cursor: pointer;
+            border-radius: 3px;
+            margin-top: 40px;
+            text-align: center;
+
+            // Remove tap highlight in iOS
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+            span {
+                padding: 5px 0 4px 0;
+                float: left;
+                color: #fff;
+                width: 78px;
+                margin-top: 0px;
+            }
+
+            &.on {
+                span:first-of-type {
+                    background: #383c48;
+                    color: #fff;
+                    border-top-left-radius: 2px;
+                    border-bottom-left-radius: 2px;
+                }
+
+                span:last-of-type {
+                    color: #383c48;
+                }
+            }
+
+            &:not(.on) {
+                span:first-of-type {
+                    color: #383c48;
+                }
+
+                span:last-of-type {
+                    background: #383c48;
+                    color: #fff;
+                    border-top-right-radius: 2px;
+                    border-bottom-right-radius: 2px;
+                }
+            }
+        }
+    }
+
+    &:not(.dark-on) {
+        @include prefix("transition", "all 0.5s");
+
+        .inner { border-bottom: 1px solid transparent !important; }
+    }
+
+    &.dark-on {
+        background: #fff;
+
+        @include prefix("transition", "all 0.5s");
+
+        .inner { border-bottom: 1px solid lighten($grey, 46%) !important; }
+
+        h1 { color: #1e2024; }
+
+        .iphone-dark {
+            background: url(../images/iphone-day.png) no-repeat;
+        }
+
+        .night-mode-btn {
+            border-color: #1e2024;
+
+            span {
+                color: #1e2024;
+            }
+
+            &.on {
+                span:first-of-type {
+                    background: #1e2024;
+                    color: #fff;
+                }
+            }
+
+            &:not(.on) {
+                span:last-of-type {
+                    background: #1e2024;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
+
+#features {
+    h1 { text-align: center; }
+
+    .row {
+        display: block;
+        @extend .clearfix;
+    }
+
+    .col-4 {
+        padding: 0 24px;
+        margin-top: 50px;
+
+        // Select the first 3 elements
+        &:nth-of-type(-n+3) {
+            margin-top: 50px;
+        }
+
+        .icon-small {
+            width: 52px;
+            height: 37px;
+            background-size: auto 100% !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            margin: 0 auto;
+        }
+
+        .feature-title {
+            color: $blue;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .feature-text {
+            color: $grey;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .design-icon {
+            background: url(../images/icon_06.png);
+        }
+
+        .top-icon {
+            background: url(../images/icon_03.png);
+        }
+
+        .upvote-icon {
+            background: url(../images/icon_09.png);
+        }
+
+        .comment-icon {
+            background: url(../images/icon_15.png);
+        }
+
+        .later-icon {
+            background: url(../images/icon_20.png);
+        }
+
+        .share-icon {
+            background: url(../images/icon_18.png);
+        }
+
+        .custom-icon {
+            background: url(../images/icon_32.png);
+        }
+
+        .night-icon {
+            background: url(../images/icon_26.png);
+        }
+
+        .search-icon {
+            background: url(../images/icon_29.png);
+        }
+    }
+}
+
+#main-footer {
+    background: url(../images/footer@2x.png);
+    background-size: cover;
+
+    .inner { height: 500px !important; }
+
+    h1 { color: #fff; }
+
+    h1,
+    .sub-text { text-align: center; display: block; float: none; }
+    .sub-text { color: #fff; margin: 10px auto 0 auto; }
+
+    .badge {
+        padding: 8px 20px 7px 20px;
+        position: relative;
+        display: inline-block;
+        margin-top: 38px;
+        border-radius: 6px;
+        color: $blue;
+        background: #fff;
+        border: 2px solid #fff;
+        @extend .h-center;
+
+        @include prefix("transition", "all 0.2s");
+
+        &:hover {
+            background: none;
+            color: #fff;
+        }
+    }
+
+    small {
+        width: 210px;
+        font-size: 12px;
+        color: #fff;
+        margin-top: 5px;
+        text-align: center;
+        display: block;
+        position: relative;
+        @extend .h-center;
+    }
+
+    .twitter {
+        width: 24px;
+        height: 20px;
+        display: inline-block;
+        background: url(../images/twitter.svg) no-repeat;
+        background-size: 24px;
+        bottom: 110px;
+        @extend .h-center;
+    }
+
+    .fabrica {
+        bottom: 60px;
+        color: #fff;
+        @extend .h-center;
+
+        span {
+            width: 30px;
+            height: 35px;
+            margin: 0 10px -10px 13px;
+            display: inline-block;
+            background: url(../images/fabrica@2x.png) no-repeat;
+            background-size: 100%;
+        }
+    }
+}
+
+// Retina screens
+@media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
+only screen and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+
+    // Swap images to @2x
+    .hero-iphone {
+        background: url(../images/iphone-day@2x.png) no-repeat !important;
+        background-size: 300px !important;
+    }
+
+    #night-mode.dark-on {
+        .iphone-dark {
+            background: url(../images/iphone-day@2x.png) no-repeat !important;
+            background-size: 300px !important;
+        }
+    }
+
+    .iphone-dark {
+        background: url(../images/iphone-night@2x.png) no-repeat !important;
+        background-size: 300px !important;
+    }
+
+    .iphone-vote {
+        background: url(../images/comment@2x.png) no-repeat !important;
+        background-size: 300px !important;
+    }
+}
+
+// Tablet Screens
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+    .inner { width:767px; }
+
+    .col-12 { width:748px !important; }
+    .col-9  { width:492px !important; }
+    .col-8  { width:556px !important; }
+    .col-6  { width:363px !important; }
+    .col-4  { width:235px !important; }
+    .col-3  { width:172px !important; }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+    .inner { width: 479px !important; }
+
+    .col-12 { width: 460px !important; }
+    .col-9  { width: 460px !important; }
+    .col-8  { width: 460px !important; }
+    .col-6  { width: 460px !important; }
+    .col-4  { width: 460px !important; }
+    .col-3  { width: 460px !important; }
+}
+
+// Mobile Screens
+@media only screen and (max-width: 479px),
+only screen and (min-width: 480px) and (max-width: 767px) {
+    .inner { width: 320px; }
+
+    .col-12 { width: 300px; }
+    .col-9  { width: 300px; }
+    .col-8  { width: 300px; }
+    .col-6  { width: 300px; }
+    .col-4  { width: 300px; }
+    .col-3  { width: 300px; }
+
+    #main-header {
+        .logo {
+            display: inline-block;
+            height: 60px;
+            margin: 30px auto 0 auto;
+            float: none;
+            padding-top: 16px;
+
+            @include center("X", relative);
+
+            span {
+                width: 60px;
+                height: 60px;
+                border-radius: 15px;
+                margin-top: -16px;
+                margin-right: 20px;
+            }
+        }
+
+        #main-nav { display: none; }
+    }
+
+    #hero {
+        .inner { padding-top: 5px; }
+
+        .col-4.left,
+        .col-6.right {
+            position: static;
+
+            @include prefix("transform", "translateY(0) !important");
+        }
+        .col-4.left {
+            .hero-iphone {
+                height: 320px !important;
+            }
+
+            .hero-iphone:before {
+                content: "";
+                width: 100%;
+                height: 100%;
+                display: block;
+                background: linear-gradient(rgba(255,255,255, 0), rgba(255,255,255, 0.1), rgba(255,255,255, 0.8), #fff);
+            }
+        }
+
+        .col-6.right {
+            padding: 0 10px;
+            text-align: center;
+            position: static;
+
+            .badge {
+                margin: 30px auto 0 auto;
+                display: inline-block;
+
+                @include center("X", "relative");
+            }
+
+            small {
+                @include center("X", "relative");
+            }
+        }
+    }
+
+    #info {
+        .col-6 {
+            padding: 0 10px;
+
+            &:last-of-type { margin-top: 60px; }
+        }
+
+    }
+
+    #vote-comment {
+        .col-6.left,
+        .col-6.right {
+            position: static;
+
+            @include prefix("transform", "translateY(0) !important");
+        }
+
+        .col-6.left {
+            padding: 0 10px;
+            display: inline-block;
+
+            h1,
+            .sub-text { text-align: center; }
+        }
+
+        .iphone-vote {
+            height: 320px !important;
+            background-position: bottom !important;
+            margin-top: 0;
+
+            &:before {
+                content: "";
+                width: 100%;
+                height: 100%;
+                display: block;
+                background: linear-gradient(0deg, rgba(255,255,255, 0), rgba(255,255,255, 0.1), rgba(255,255,255, 0.8), #fff);
+            }
+        }
+    }
+
+    #read-later {
+        .col-6.left,
+        .col-6.right {
+            position: static;
+
+            @include prefix("transform", "translateY(0) !important");
+        }
+
+        .col-6.left {
+            padding: 0;
+            display: inline-block;
+        }
+
+        .col-6.right {
+            margin-top: 40px;
+            padding: 0 10px;
+
+            h1,
+            .sub-text { text-align: center; }
+        }
+    }
+
+    #night-mode {
+        .inner { border: none; }
+
+        .col-6.left,
+        .col-6.right {
+            position: static;
+            padding: 0 10px;
+
+            @include prefix("transform", "translateY(0) !important");
+        }
+
+        .col-6.left {
+            padding: 0;
+
+            .night-mode-btn {
+                @include center("X", "relative");
+            }
+
+            h1,
+            .sub-text { text-align: center; }
+        }
+
+        .col-6.right {
+            padding: 0;
+
+            .iphone-dark {
+                height: 320px !important;
+                background-position: bottom !important;
+                margin-top: 0px;
+                margin-bottom: 0;
+
+                &:before {
+                    content: "";
+                    width: 100%;
+                    height: 100%;
+                    display: block;
+                    background: linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0, 0.1), rgba(0,0,0, 0.7), #1e2024);
+                }
+            }
+        }
+
+        &.dark-on {
+            .iphone-dark {
+                &:before {
+                    background: linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255, 0.1), rgba(255,255,255, 0.7), #fff) !important;
+                }
+            }
+        }
+
+        &:not(.dark-on) {
+            .iphone-dark {
+                &:before {
+                    background: linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0, 0.1), rgba(0,0,0, 0.7), #1e2024) !important;
+                }
+            }
+        }
+    }
+
+    #features {
+        .col-4 { padding: 0 10px; }
+    }
+
+    #main-footer {
+        .inner { height: 550px !important; }
+    }
+}
+
+// Fade in animations
+@-webkit-keyframes fadeInDown {
+    from { opacity: 0; }
+
+    to { opacity: 1; }
+}
+
+@-moz-keyframes fadeInDown {
+    from { opacity: 0; }
+
+    to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; }
+
+    to { opacity: 1; }
+}
+
+// yo dawg
